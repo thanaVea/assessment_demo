@@ -40,19 +40,15 @@ public class UserService {
         }else{
             userTicket = new UserTicketEntity();
             this.userTicketRepository.saveAndFlush(userTicket);
-
         }
 
-        BigDecimal totalPrice;
-        if(userTicket.getTotalPrice() == null){
-            totalPrice = null;
-        }else{
-            totalPrice = userTicket.getTotalPrice();
+        BigDecimal totalPrice = userTicket.getTotalPrice();
+        if (totalPrice == null) {
+            totalPrice = BigDecimal.ZERO;
         }
         totalPrice = totalPrice.add(lottery.getPrice());
         userTicket.setTotalPrice(totalPrice);
 
-        //UPDATE lottery owner
         lottery.setUserId(userTicket.getUserId());
         this.lotteryRepository.saveAndFlush(lottery);
         System.out.println("lottery.getUser = " + lottery.getUserId());
