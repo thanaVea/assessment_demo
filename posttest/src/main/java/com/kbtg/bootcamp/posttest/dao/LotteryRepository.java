@@ -16,4 +16,7 @@ public interface LotteryRepository extends JpaRepository<LotteryEntity, Long>, J
     @Query(value = "select * from lottery where user_id = :userId ",nativeQuery = true)
     List<LotteryEntity> findByUserId(@Param("userId") Long userId);
 
+    @Query(value = "select * from lottery where user_id is null ",nativeQuery = true)
+    List<LotteryEntity> findAllWithOutOwner();
+
 }

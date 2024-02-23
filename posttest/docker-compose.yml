@@ -1,29 +1,35 @@
 version: '3.8'
-
 services:
-  application:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  app:
+    image: gcr.io/distroless/java17-debian12:latest
     ports:
       - "8888:8888"
     environment:
-      DATABASE_URL: jdbc:postgresql://postgres:5432/LotteryDB
-      DATABASE_USER: admin
-      DATABASE_PASS: password
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/LotteryDB
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: admin
+      SPRING_JPA_HIBERNATE_DDL-AUTO: create-drop
+      SPRING_DATASOURCE_DRIVER-CLASS-NAME: org.postgresql.Driver
+      SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_SECURITY_USER_NAME: admin
+      SPRING_SECURITY_USER_PASSWORD: password
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG
     depends_on:
-      - postgres
+      - db
+    volumes:
+      - ./build/libs:/app
+    entrypoint: ["java", "-jar", "/app/posttest-0.0.1-SNAPSHOT.jar"]
 
-  postgres:
+  db:
     image: postgres:latest
     environment:
       POSTGRES_DB: LotteryDB
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d/
 
 volumes:
   postgres_data:

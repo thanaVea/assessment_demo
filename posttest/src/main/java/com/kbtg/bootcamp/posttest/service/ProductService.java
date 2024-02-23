@@ -16,7 +16,7 @@ public class ProductService {
 
     public ProductResponseDTO getAllProduct() {
         ProductResponseDTO responseDTO = new ProductResponseDTO();
-        List<LotteryEntity> productList = this.lotteryRepository.findAll();
+        List<LotteryEntity> productList = this.lotteryRepository.findAllWithOutOwner();
 
         List<String> tickets = productList.stream()
                 .map(LotteryEntity::getTicketNumber)
