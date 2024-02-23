@@ -29,4 +29,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
+    @DeleteMapping("/{userId}/lotteries/{ticketId}")
+    public ResponseEntity<ProductResponseDTO> deleteLotteryTicket(@PathVariable String userId, @PathVariable String ticketId)throws Exception {
+        ProductResponseDTO responseDto;
+        responseDto = this.userService.deleteLotteryTicketProcess(userId,ticketId);
+        return ResponseEntity.status(HttpStatus.OK).body(responseDto);
+    }
+
 }

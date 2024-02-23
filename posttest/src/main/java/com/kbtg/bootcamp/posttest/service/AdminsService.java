@@ -5,9 +5,9 @@ import com.kbtg.bootcamp.posttest.dto.AdminRequestDto;
 import com.kbtg.bootcamp.posttest.dto.AdminResponseDto;
 import com.kbtg.bootcamp.posttest.entity.LotteryEntity;
 import com.kbtg.bootcamp.posttest.exception.ValidationException;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.math.BigDecimal;
@@ -35,19 +35,6 @@ public class AdminsService {
         if (!validationErrors.isEmpty()) throw new ValidationException(validationErrors);
     }
 
-//    public AdminResponseDto createLottery(AdminRequestDto requestDto) {
-//        AdminResponseDto responseDto = new AdminResponseDto();
-//
-//        LotteryEntity lottery = new LotteryEntity();
-//        lottery.setTicketNumber(requestDto.getTicket());
-//        lottery.setAmount(requestDto.getAmount());
-//        lottery.setPrice(BigDecimal.valueOf(requestDto.getPrice().longValue()));
-//
-//        LotteryEntity lotteryEntity = saveLottery(lottery);
-//        responseDto.setTicket(lotteryEntity.getTicketNumber());
-//        return responseDto;
-//    }
-
     public AdminResponseDto createLottery(AdminRequestDto requestDto) {
         LotteryEntity lottery = saveLottery(new LotteryEntity(
                 requestDto.getTicket(),
@@ -59,7 +46,7 @@ public class AdminsService {
         return response;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public LotteryEntity saveLottery(LotteryEntity LotteryData){
         return this.lotteryRepository.saveAndFlush(LotteryData);
     }

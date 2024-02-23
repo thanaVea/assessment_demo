@@ -24,7 +24,7 @@ public class LotteryEntity {
     private Integer amount;
 
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
 
     public LotteryEntity() {
 
@@ -68,11 +68,11 @@ public class LotteryEntity {
         this.amount = amount;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 }

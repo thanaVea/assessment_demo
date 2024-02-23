@@ -12,16 +12,25 @@ public class UserTicketEntity {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_ticket_user_id_seq")
     @SequenceGenerator(name = "user_ticket_user_id_seq", sequenceName = "user_ticket_user_id_seq", allocationSize = 1)
     @Column(name = "user_id", nullable = false)
-    private Integer userId;
+    private Long userId;
 
     @Column(name = "total_price", precision = 10, scale = 2)
     private BigDecimal totalPrice;
 
-    public Integer getUserId() {
+    public UserTicketEntity() {
+
+    }
+
+    public UserTicketEntity(Long userId, BigDecimal totalPrice) {
+        this.userId = userId;
+        this.totalPrice = totalPrice;
+    }
+
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 
