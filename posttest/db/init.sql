@@ -26,4 +26,4 @@ INSERT INTO lottery (id, amount, price,ticket_number,user_id)
 VALUES (101, 1, 300 ,'112233',null), (102, 2, 150 ,'090911',null);
 
 INSERT INTO public.user_ticket (user_id, total_price)
-VALUES (1, 00.00),(2, 80.00),(3, 80.00);
+VALUES (1, 00.00),(2, 00.00),(3, 00.00);

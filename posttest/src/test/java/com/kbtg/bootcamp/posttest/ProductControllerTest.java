@@ -37,7 +37,7 @@ public class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("when perform GET on /lotteries should return status 200 and body contain list of lotteries.")
+    @DisplayName("View all tickets available.")
     void viewLotteries() throws Exception {
         List<String> ticketNumbers = List.of("112233", "090911");
         ProductResponseDTO productResponse = new ProductResponseDTO(ticketNumbers,null);

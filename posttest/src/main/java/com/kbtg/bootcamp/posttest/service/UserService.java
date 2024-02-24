@@ -53,7 +53,6 @@ public class UserService {
 
 
     public ProductResponseDTO getAllMyTicketsProcess(String userId) {
-        ProductResponseDTO responseDTO = new ProductResponseDTO();
 
         UserTicketEntity userTicket = userTicketRepository.findById(Long.valueOf(userId))
                 .orElseThrow(() -> new NotFoundException("No such User with id: " + userId));
@@ -64,10 +63,9 @@ public class UserService {
                 .map(LotteryEntity::getTicketNumber)
                 .collect(Collectors.toList());
 
-        responseDTO.setTickets(tickets);
-        responseDTO.setTotalPrice(userTicket.getTotalPrice().toString());
-        return responseDTO;
+        return new ProductResponseDTO(tickets, userTicket.getTotalPrice().toString());
     }
+
     @Transactional(rollbackFor = Exception.class)
     public ProductResponseDTO deleteLotteryTicketProcess(String userId, String ticketId) {
         LotteryEntity lottery = this.lotteryRepository.findByIdAndUserId(Long.valueOf(ticketId),Long.valueOf(userId));
