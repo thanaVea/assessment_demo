@@ -30,30 +30,28 @@ public class UserService {
     private LotteryRepository lotteryRepository;
 
     @Transactional(rollbackFor = Exception.class)
-    public UserResponseDto buyLotteryTicketProcess(String userId, String ticketId) throws Exception{
+    public UserResponseDto buyLotteryTicketProcess(String userId, String ticketId) throws Exception {
 
         LotteryEntity lottery = this.lotteryRepository.findById(Long.valueOf(ticketId))
                 .filter(lotteryEntity -> ObjectUtils.isEmpty(lotteryEntity.getUserId()))
-                .orElseThrow(() -> new NotFoundException("No such lottery ticket with id: " + ticketId ));
+                .orElseThrow(() -> new NotFoundException("No such lottery ticket with id: " + ticketId));
 
         UserTicketEntity userTicketCheck = this.userTicketRepository.findByUserId(Long.valueOf(userId));
-        System.out.println("userTicketCheck : " + userTicketCheck.getUserId());
-        System.out.println("price : " + userTicketCheck.getTotalPrice());
-        if(ObjectUtils.isEmpty(userTicketCheck)){
-            new NotFoundException("No such user with id: " + userId);
+        if (userTicketCheck == null) {
+            userTicketCheck = new UserTicketEntity();
+            userTicketCheck.setUserId(Long.valueOf(userId));
         }
 
         BigDecimal totalPrice = Optional.ofNullable(userTicketCheck.getTotalPrice()).orElse(BigDecimal.ZERO);
         totalPrice = totalPrice.add(lottery.getPrice());
         userTicketCheck.setTotalPrice(totalPrice);
-        lottery.setUserId(userTicketCheck.getUserId());
 
-        lotteryRepository.save(lottery);
-
-        UserResponseDto responseDto = new UserResponseDto();
-        responseDto.setId(userId);
-        return responseDto;
+        lottery.setUserId(Long.valueOf(userId));
+        this.userTicketRepository.save(userTicketCheck);
+        this.lotteryRepository.save(lottery);
+        return new UserResponseDto(userId);
     }
+
 
     public ProductResponseDTO getAllMyTicketsProcess(String userId) {
         ProductResponseDTO responseDTO = new ProductResponseDTO();
