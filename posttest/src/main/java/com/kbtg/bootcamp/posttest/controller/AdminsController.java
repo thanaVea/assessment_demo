@@ -3,6 +3,7 @@ package com.kbtg.bootcamp.posttest.controller;
 import com.kbtg.bootcamp.posttest.dto.AdminRequestDto;
 import com.kbtg.bootcamp.posttest.dto.AdminResponseDto;
 import com.kbtg.bootcamp.posttest.service.AdminsService;
+import com.kbtg.bootcamp.posttest.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,8 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/admin")
 public class AdminsController {
-    @Autowired
-    private AdminsService adminService;
+    private final AdminsService adminService;
+
+    public AdminsController(AdminsService adminService) {
+        this.adminService = adminService;
+    }
 
     @PostMapping("/lotteries")
     public ResponseEntity<AdminResponseDto> checkAdminRoles(@Valid @RequestBody AdminRequestDto requestDto) throws Exception {
