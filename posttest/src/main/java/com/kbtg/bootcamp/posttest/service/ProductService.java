@@ -14,17 +14,12 @@ public class ProductService {
     @Autowired
     private LotteryRepository lotteryRepository;
 
-    public ProductResponseDTO getAllProduct() {
-        ProductResponseDTO responseDTO = new ProductResponseDTO();
-        List<LotteryEntity> productList = this.lotteryRepository.findAllWithOutOwner();
 
-        List<String> tickets = productList.stream()
-                .map(LotteryEntity::getTicketNumber)
-                .collect(Collectors.toList());
-
-        responseDTO.setTickets(tickets);
-
-        return responseDTO;
+    public ProductResponseDTO getAllProduct() throws Exception {
+        List<String> ticket = this.lotteryRepository.findAllWithOutOwner()
+                .stream().map(LotteryEntity::getTicketNumber)
+                .toList();
+        return new ProductResponseDTO(ticket,null);
     }
 
 }

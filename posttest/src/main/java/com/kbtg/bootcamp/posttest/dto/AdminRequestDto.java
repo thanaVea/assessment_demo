@@ -2,14 +2,17 @@ package com.kbtg.bootcamp.posttest.dto;
 
 public class AdminRequestDto {
 
-    //@Pattern(regexp = "\\d{6}", message = "Ticket must be 6 digits")
     private String ticket;
 
-    //@NotNull(message = "price must not be null")
     private Integer price;
 
-    //@NotNull(message = "amount must not be null")
     private Integer amount;
+
+    public AdminRequestDto(String ticket, Integer price, Integer amount) {
+        this.ticket = ticket;
+        this.price = price;
+        this.amount = amount;
+    }
 
     public String getTicket() {
         return ticket;

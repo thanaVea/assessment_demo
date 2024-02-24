@@ -2,6 +2,7 @@ package com.kbtg.bootcamp.posttest.controller;
 
 import com.kbtg.bootcamp.posttest.dto.ProductResponseDTO;
 import com.kbtg.bootcamp.posttest.dto.UserResponseDto;
+import com.kbtg.bootcamp.posttest.service.ProductService;
 import com.kbtg.bootcamp.posttest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,8 +13,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/{userId}/lotteries/{ticketId}")
     public ResponseEntity<UserResponseDto> buyLotteryTicket(@PathVariable String userId, @PathVariable String ticketId)throws Exception {

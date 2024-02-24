@@ -23,16 +23,18 @@ public class AdminsService {
 
     public void validateAdminReq(AdminRequestDto requestDto) throws ValidationException {
         Map<String, String> validationErrors = new LinkedHashMap<>();
-        if (ObjectUtils.isEmpty(requestDto.getPrice())) validationErrors.put("price", "must not be null");
-        if (ObjectUtils.isEmpty(requestDto.getAmount())) validationErrors.put("amount", "must not be null");
+        if (ObjectUtils.isEmpty(requestDto.getPrice()))
+            validationErrors.put("price", "must not be null");
+        if (ObjectUtils.isEmpty(requestDto.getAmount()))
+            validationErrors.put("amount", "must not be null");
         if (ObjectUtils.isEmpty(requestDto.getTicket())) {
             validationErrors.put("ticket", "must not be null");
         } else {
-            if (!Pattern.compile("\\d{6}").matcher(requestDto.getTicket()).matches()) {
+            if (!Pattern.compile("\\d{6}").matcher(requestDto.getTicket()).matches())
                 validationErrors.put("ticket", "must be 6 digits");
-            }
         }
-        if (!validationErrors.isEmpty()) throw new ValidationException(validationErrors);
+        if (!validationErrors.isEmpty())
+            throw new ValidationException(validationErrors);
     }
 
     public AdminResponseDto createLottery(AdminRequestDto requestDto) {
